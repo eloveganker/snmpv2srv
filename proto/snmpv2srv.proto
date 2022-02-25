@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "./proto;proto";
+
+service Snmpv2srv {
+	rpc SnmpV2Get(SnmpV2GetRequest)returns(SnmpV2Response){}
+	rpc SnmpV2BulkGet(SnmpV2BulkGetRequest)returns(SnmpV2Response){}
+}
+
+
+//SNMP 叶子节点
+message SnmpV2GetRequest{
+	repeated string Ips=1;
+	string Community =2;
+	map<string,string> Data=3;
+}
+
+//SNMP BUlk Request
+message SnmpV2BulkGetRequest{
+	repeated string Ips=1;
+	string Community=2;
+	repeated string Oids=3;
+}
+
+//SNMP Response
+message SnmpV2Result{
+	string Ip=1;
+	string Community=2;
+	map<string,string> Data=3;
+	string Date=4;
+}
+
+
+message SnmpV2Response{
+	repeated SnmpV2Result result=1;
+	string Date=2;
+}
